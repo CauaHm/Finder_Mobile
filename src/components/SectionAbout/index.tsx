@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { SocialButtons } from '../SocialButtons/SocialButtons';
 import { DefaultButton } from '../DefaultButton';
 
@@ -18,17 +18,17 @@ export function SectionAbout() {
           <SocialButtons />
         </View>
       </View>
-      <Image source={require('../../assets/images/blueComputer.png')} style={styles.image} />
     </View>
+    
   );
 }
 
 const styles = StyleSheet.create({
-  section: { paddingVertical: 20, backgroundColor: '#f8f8f8', borderRadius: 12, marginBottom: 16 },
-  leftSection: { padding: 12 },
-  title: { fontSize: 20, fontWeight: '700', color: '#111', marginBottom: 8 },
+  section: {display: 'flex',height: 'auto', paddingVertical: 20, backgroundColor: '#f8f8f8', borderRadius: 12, marginBottom: 16, flexDirection: 'column', gap: 12, justifyContent: 'center', alignItems: 'center' },
+  leftSection: {width: '50%', padding: 12, flexDirection: 'column', gap: 12 },
+  rightSection: {width: '50%', padding: 12, flex: 1 },
+  title: {textAlign: 'center', fontSize: 32, fontWeight: '700', color: '#111', marginBottom: 8 },
   titleStrong: { color: '#F6C000' },
-  description: { fontSize: 14, color: '#444', marginBottom: 12 },
-  actions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  image: { height: 140, width: '100%', marginTop: 10, borderRadius: 8 },
+  description: {textAlign: 'center', fontSize: 24, color: '#444', marginBottom: 12 },
+  actions: { flexDirection: 'column', alignItems: 'center', gap: 8 },
 });

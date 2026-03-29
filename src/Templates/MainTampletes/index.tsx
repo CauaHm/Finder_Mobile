@@ -1,6 +1,5 @@
 import { View, StyleSheet } from 'react-native';
 import { type ReactNode } from 'react';
-import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 
 type MainTamplatesProps = {
@@ -12,7 +11,6 @@ export function MainTamplates({ children }: MainTamplatesProps) {
     <View style={styles.container}>
       <Header />
       <View style={styles.mainContent}>{children}</View>
-      <Footer />
     </View>
   );
 }

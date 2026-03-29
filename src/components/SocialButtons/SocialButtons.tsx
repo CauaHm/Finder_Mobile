@@ -1,10 +1,11 @@
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export function SocialButtons() {
   const navItems = [
-    { key: 'instagram', label: 'Instagram', icon: '📸' },
-    { key: 'whatsapp', label: 'WhatsApp', icon: '💬' },
-    { key: 'email', label: 'E-mail', icon: '✉️' },
+    { key: 'instagram', label: 'Instagram', icon: <Ionicons name="logo-instagram" size={40} /> },
+    { key: 'whatsapp', label: 'WhatsApp', icon: <Ionicons name="logo-whatsapp" size={40} /> },
+    { key: 'email', label: 'E-mail', icon: <Ionicons name="mail" size={40} /> },
   ];
 
   return (

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import { DefaultButton } from '../DefaultButton';
+import { GenericHtml } from '../GenericHtml';
 
 export function SectionContact() {
   const [nome, setNome] = useState('');
@@ -18,10 +19,11 @@ export function SectionContact() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Sua loja no digital: mais vendas, mais visibilidade!</Text>
-        <Text style={styles.titleHighlight}>Entre em contato</Text>
-      </View>
+      <GenericHtml titulo="Sua loja no digital: mais vendas, mais visibilidade!" tituloGrifado="Entre em contato conosco">
+        <Text>
+          Tem alguma dúvida ou precisa de mais informações? Preencha o formulário abaixo e nossa equipe entrará em contato com você.
+        </Text>
+      </GenericHtml>
       <View style={styles.form}>
         <TextInput style={styles.input} placeholder="Nome" value={nome} onChangeText={setNome} />
         <TextInput style={styles.input} placeholder="E-mail" value={email} onChangeText={setEmail} keyboardType="email-address" />

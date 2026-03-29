@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState, useCallback } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 import { MainTamplates } from '../Templates/MainTampletes';
+import { ProductCard } from '../components/ProductCard';
 import type { Product } from '../Models/Product';
 
 const FAVORITES_KEY = '@finder:favorites';
@@ -9,42 +11,43 @@ const FAVORITES_KEY = '@finder:favorites';
 export default function Favorites() {
   const [favorites, setFavorites] = useState<Product[]>([]);
 
-  useEffect(() => {
-    async function loadFavorites() {
-      try {
-        const data = await AsyncStorage.getItem(FAVORITES_KEY);
-        if (data) {
-          setFavorites(JSON.parse(data));
-        }
-      } catch (error) {
-        console.error('Erro ao carregar favoritos', error);
-      }
+  const loadFavorites = async () => {
+    try {
+      const data = await AsyncStorage.getItem(FAVORITES_KEY);
+      if (data) setFavorites(JSON.parse(data));
+    } catch (error) {
+      console.error(error);
     }
-    void loadFavorites();
-  }, []);
+  };
 
-  if (favorites.length === 0) {
-    return (
-      <MainTamplates>
-        <View style={styles.container}>
-          <Text style={styles.empty}>Nenhum favorito adicionado ainda.</Text>
-        </View>
-      </MainTamplates>
-    );
-  }
+  useFocusEffect(
+    useCallback(() => {
+      loadFavorites();
+    }, [])
+  );
+
+  const removeFavorite = async (asin: string) => {
+    const newFavorites = favorites.filter(item => item.asin !== asin);
+    setFavorites(newFavorites);
+    await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(newFavorites));
+  };
 
   return (
     <MainTamplates>
       <View style={styles.container}>
+        <Text style={styles.header}>Meus Favoritos</Text>
         <FlatList<Product>
           data={favorites}
-          keyExtractor={(item: Product) => item.asin}
-          renderItem={({ item }: { item: Product }) => (
-            <View style={styles.card}>
-              <Text style={styles.title}>{item.product_title ?? item.title ?? 'Sem nome'}</Text>
-              <Text style={styles.price}>R$ {item.product_price ?? item.price ?? 0}</Text>
-            </View>
+          keyExtractor={(item) => item.asin}
+          ListEmptyComponent={<Text style={styles.empty}>Nenhum favorito ainda.</Text>}
+          renderItem={({ item }) => (
+            <ProductCard
+              product={item}
+              isFavorite={true}
+              onToggleFavorite={() => removeFavorite(item.asin)}
+            />
           )}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </MainTamplates>
@@ -53,8 +56,6 @@ export default function Favorites() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff', padding: 16 },
-  empty: { fontSize: 16, color: '#666', textAlign: 'center', marginTop: 40 },
-  card: { marginBottom: 12, borderWidth: 1, borderColor: '#ccc', borderRadius: 8, padding: 12 },
-  title: { fontWeight: '600', fontSize: 16, marginBottom: 4 },
-  price: { color: '#333' },
+  header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
+  empty: { textAlign: 'center', marginTop: 40, color: '#666' }
 });

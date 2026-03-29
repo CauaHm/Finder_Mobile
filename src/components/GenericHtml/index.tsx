@@ -19,7 +19,7 @@ export function GenericHtml({ titulo, tituloGrifado, children }: GenericHtmlProp
 }
 
 const styles = StyleSheet.create({
-  container: { marginBottom: 12 },
-  title: { fontSize: 18, fontWeight: '700', marginBottom: 8 },
+  container: { marginBottom: 12, textAlign: 'center', justifyContent: 'center', alignItems: 'center', width: '100%' },
+  title: { fontSize: 24, fontWeight: '700', marginBottom: 8, justifyContent: 'center', textAlign: 'center' },
   highlight: { color: '#F6C000' },
 });

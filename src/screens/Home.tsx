@@ -4,6 +4,7 @@ import { SectionAbout } from '../components/SectionAbout';
 import { SectionAboutDoWeDo } from '../components/SectionAboutDoWeDo';
 import { SectionServices } from '../components/SectionServices';
 import { SectionContact } from '../components/SectionContact';
+import { Footer } from '../components/Footer';
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
         <SectionAboutDoWeDo />
         <SectionServices />
         <SectionContact />
+        <Footer/>
       </ScrollView>
     </MainTamplates>
   );

@@ -7,18 +7,58 @@ import Products from '../screens/Products';
 import Favorites from '../screens/Favorites';
 import Login from '../screens/Login';
 import { Text } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MainTabs() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Home" component={Home} options={{ title: 'Home' }} />
-      <Tab.Screen name="Products" component={Products} options={{ title: 'Produtos' }} />
-      <Tab.Screen name="Favorites" component={Favorites} options={{ title: 'Favoritos' }} />
-    </Tab.Navigator>
+    <Tab.Navigator 
+  screenOptions={{ 
+    headerShown: false,
+    tabBarActiveTintColor: '#ffcb45', 
+    tabBarInactiveTintColor: 'gray',  
+  }}
+>
+  <Tab.Screen 
+    name="Home" 
+    component={Home} 
+    options={{ 
+      title: 'Home',
+      tabBarIcon: ({ color, size }) => (
+        <Feather name="home" color={color} size={size} />
+      )
+    }} 
+  />
+  
+  <Tab.Screen 
+    name="Products" 
+    component={Products} 
+    options={{ 
+      title: 'Produtos',
+      tabBarIcon: ({ color, size }) => (
+        <Feather name="search" color={color} size={size} /> 
+      )
+    }} 
+  />
+  
+  <Tab.Screen 
+    name="Favorites" 
+    component={Favorites} 
+    options={{ 
+      title: 'Favoritos',
+      tabBarIcon: ({ color, size }) => (
+        <Feather name="heart" color={color} size={size} />
+      )
+    }} 
+  />
+</Tab.Navigator>
   );
+}
+
+function NotFoundScreen() {
+  return <Text>Rota não encontrada</Text>;
 }
 
 export function AppNavigator() {
@@ -32,10 +72,7 @@ export function AppNavigator() {
         ) : (
           <Stack.Screen name="Login" component={Login} />
         )}
-        <Stack.Screen
-          name="NotFound"
-          component={() => <Text>Rota não encontrada</Text>}
-        />
+        <Stack.Screen name="NotFound" component={NotFoundScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

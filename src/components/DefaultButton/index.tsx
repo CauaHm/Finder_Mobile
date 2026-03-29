@@ -20,8 +20,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    height: 64,
   },
   buttonText: {
+    fontSize: 16,
+    textAlign: 'center',
     fontWeight: '700',
     color: '#000',
   },

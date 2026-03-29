@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { GenericHtml } from '../GenericHtml';
+import { Feather } from '@expo/vector-icons';
 
 export function SectionAboutDoWeDo() {
   const items = [
@@ -8,18 +9,19 @@ export function SectionAboutDoWeDo() {
     'Comparação de preços',
     'Busca detalhada',
     'Geolocalização de lojas',
-  ];
+];
 
   return (
     <View style={styles.section}>
       <View style={styles.listContainer}>
-        {items.map((item) => (
-          <View key={item} style={styles.listItem}>
-            <Text style={styles.bullet}>•</Text>
-            <Text style={styles.itemText}>{item}</Text>
-          </View>
-        ))}
-      </View>
+      {items.map((item) => (
+        <View key={item} style={styles.listItem}>
+          <Feather name="check-square" size={20} color="#ffcb45" /> 
+          
+          <Text style={styles.itemText}>{item}</Text>
+        </View>
+      ))}
+</View>
       <View style={styles.textContainer}>
         <GenericHtml titulo="O que" tituloGrifado="fazemos?">
           <Text style={styles.description}>
@@ -32,11 +34,11 @@ export function SectionAboutDoWeDo() {
 }
 
 const styles = StyleSheet.create({
-  section: { padding: 16, backgroundColor: '#ffffff', marginBottom: 16 },
+  section: { padding: 16, backgroundColor: '#fff8e8', marginBottom: 16, borderColor: '#ffcc80', borderWidth: 1, borderRadius: 8, marginHorizontal: 32 },
   listContainer: { marginBottom: 14 },
-  listItem: { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
+  listItem: { flexDirection: 'row', alignItems: 'center', marginBottom: 6, textAlign: 'left', justifyContent: 'center' },
   bullet: { marginRight: 8 },
-  itemText: { fontSize: 14, color: '#444' },
-  textContainer: { paddingTop: 8 },
-  description: { fontSize: 14, color: '#333', lineHeight: 20 },
+  itemText: { fontSize: 16, color: '#444', fontWeight: '500' },
+  textContainer: { paddingTop: 8, textAlign: 'center', justifyContent: 'center', alignItems: 'center' },
+  description: { fontSize: 14, color: '#333', lineHeight: 20, justifyContent: 'center', textAlign: 'center' },
 });
