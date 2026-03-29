@@ -1,0 +1,33 @@
+.listCards {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 48px;
+    position: relative;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: self-start;
+  padding: 20px;
+  gap: 24px;
+  color: var(--principal-dark);
+  box-shadow: 0px 0px 12px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--principal);
+  border-radius: 10px;
+  width: 90%;
+}
+
+.card h3 {
+  font-weight: bolder;
+  font-size: 1.5rem;
+  color: var(--texto-2);
+}
+
+.card p {
+  color: var(--texto-2);
+  font-size: 1rem;
+}

@@ -1,0 +1,22 @@
+.rodape {
+    background-color: var(--principal-light);
+}
+
+.footer_items {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 8% 24px 8%;
+    align-items: center;
+}
+
+.copy {
+    color: var(--black-2);
+    font-weight: 500;
+}
+
+@media screen and (max-width: 600px) {
+    .footer_items {
+        flex-direction: column;
+        gap: 20px;
+    }
+}

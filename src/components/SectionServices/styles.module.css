@@ -1,0 +1,49 @@
+.section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 48px;
+    padding: 28px 8%;
+    margin-top: 100px;
+}
+
+.rightSection {
+    width: 35%;
+    height: 100%;
+}
+
+.list_itens {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: self-start;
+    gap: 24px;
+}
+
+.list_itens li{
+    color: var(--principal-dark);
+    font-size: 1.5rem;
+}
+
+.list_itens li span {
+    color: var(--texto-2);
+    font-weight: 600;
+}
+
+@media screen and (max-width: 1170px) {
+    .section {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .rightSection {
+       display: none;
+    }
+}

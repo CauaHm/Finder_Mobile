@@ -1,0 +1,42 @@
+.containerTitle {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--texto-2);
+}
+
+.containerTitle h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heartIcon {
+  color: red;
+}
+
+.productsFav {
+    width: 100%;
+    display: flex;
+    padding: 50px;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap; 
+}
+
+.productsFav > div {
+  width: 500px;
+}
+
+
+@media screen and (max-width: 600px) {
+  .productsFav {
+    padding: 20px;
+  }
+  .productsFav > div {
+    width: 100%; 
+  }
+}

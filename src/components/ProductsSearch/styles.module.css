@@ -1,0 +1,25 @@
+.containerForm {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  width: 100%;
+  align-items: center;
+}
+
+.searchInput {
+  padding: 10px;
+  width: 60%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem; 
+}
+
+@media screen and (max-width: 768px) {
+    .containerForm {
+        flex-direction: column;
+        gap: 16px;
+    }
+    .searchInput {
+        width: 100%;
+    }
+}
