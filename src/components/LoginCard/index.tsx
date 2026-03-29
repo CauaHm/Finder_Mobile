@@ -1,28 +1,39 @@
-import { useState } from 'react';
-import { FaFacebookF, FaGooglePlusG, FaLinkedinIn, FaUser, FaEnvelope, FaLock } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom'; 
+import React, { useState } from 'react';
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  StyleSheet, 
+  Alert, 
+  ScrollView 
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { FontAwesome5 } from '@expo/vector-icons'; // Usando ícones compatíveis com Expo/React Native
 import { useAuth } from '../../contexts/AuthContext';
-import styles from './styles.module.css';
 
 export function LoginCard() {
-  const [isSignInActive, setIsSignInActive] = useState(false);
+  const [isSignInActive, setIsSignInActive] = useState(true);
 
+  // States de Login
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
+  // States de Registro
   const [registerName, setRegisterName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
 
   const { login } = useAuth();
+  const navigation = useNavigation<any>();
 
   const handleToggle = () => setIsSignInActive(!isSignInActive);
 
-  const API_BASE_URL = "http://localhost:5000"; 
-  const navigate = useNavigate(); 
+  // ATENÇÃO: Se estiver testando em Emulador Android, "localhost" não funciona. 
+  // Troque por "http://10.0.2.2:5000" ou pelo IP da sua máquina (ex: "http://192.168.1.5:5000")
+  const API_BASE_URL = "http://192.168.0.14:5000";
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleLogin = async () => {
     try {
       const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
@@ -33,17 +44,17 @@ export function LoginCard() {
       
       if (res.ok) {
         login(data.token);
-        navigate("/products");
+        navigation.navigate("Products");
       } else {
-        alert(data.message);
+        Alert.alert("Erro", data.message);
       }
     } catch (err) {
       console.error(err);
+      Alert.alert("Erro", "Falha ao conectar com o servidor.");
     }
   };
 
-  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleRegister = async () => {
     try {
       const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: "POST",
@@ -57,7 +68,7 @@ export function LoginCard() {
       const data = await res.json();
       
       if (res.ok) {
-        alert("Conta criada com sucesso! Fazendo login automático...");
+        Alert.alert("Sucesso", "Conta criada! Fazendo login automático...");
         
         const loginRes = await fetch(`${API_BASE_URL}/api/auth/login`, {
             method: "POST",
@@ -68,129 +79,165 @@ export function LoginCard() {
         
         if (loginRes.ok) {
             login(loginData.token);
-            navigate("/products");
+            navigation.navigate("Products");
         } else {
             setIsSignInActive(true); 
         }
-
       } else {
-        alert(data.message || "Erro no cadastro");
+        Alert.alert("Erro", data.message || "Erro no cadastro");
       }
     } catch (err) {
       console.error(err);
-      alert("Erro ao conectar com o servidor.");
+      Alert.alert("Erro", "Erro ao conectar com o servidor.");
     }
   };
 
   return (
-    <main className={styles.mainContainer}>
-      <div className={styles.containerLogin}>
-        <div className={styles.contentLogin}>
-          <div className={`${styles.firstColumn} ${styles.column}`}>
-            {isSignInActive ? (
-              <>
-                <h2 className={`${styles.titleLogin} ${styles.titlePrimary}`}>Bem-vindo!</h2>
-                <p className={`${styles.descriptionLogin} ${styles.descriptionPrimary}`}>Não possui uma conta?</p>
-                <button onClick={handleToggle} className={`${styles.btnLogin} ${styles.btnPrimary}`}>Criar</button>
-              </>
-            ) : (
-              <>
-                <h2 className={`${styles.titleLogin} ${styles.titlePrimary}`}>Olá, amigo!</h2>
-                <p className={`${styles.descriptionLogin} ${styles.descriptionPrimary}`}>Já esta conosco?</p>
-                <button onClick={handleToggle} className={`${styles.btnLogin} ${styles.btnPrimary}`}>Entrar</button>
-              </>
-            )}
-          </div>
-          <div className={`${styles.secondColumn} ${styles.column}`}>
-            {isSignInActive ? (
-              <>
-                <h2 className={`${styles.titleLogin} ${styles.titleSecond}`}>Faça login no Finder</h2>
-                <div className={styles.socialMediaLogin}>
-                  <ul className={styles.listSocialMedia}>
-                    <a className={styles.linkSocialMedia} href="#"><li className={styles.itemSocialMedia}><FaFacebookF /></li></a>
-                    <a className={styles.linkSocialMedia} href="#"><li className={styles.itemSocialMedia}><FaGooglePlusG /></li></a>
-                    <a className={styles.linkSocialMedia} href="#"><li className={styles.itemSocialMedia}><FaLinkedinIn /></li></a>
-                  </ul>
-                </div>
-                <p className={`${styles.descriptionLogin} ${styles.descriptionSecond}`}>ou use sua conta de email:</p>
-                <form onSubmit={handleLogin} className={styles.formLogin}>
-                  <label className={styles.labelLoginInput}>
-                    <FaEnvelope className={styles.iconModify} />
-                    <input type="email" placeholder="Email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required />
-                  </label>
-                  <label className={styles.labelLoginInput}>
-                    <FaLock className={styles.iconModify} />
-                    <input type="password" placeholder="Senha" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required />
-                  </label>
-                  <a className={styles.passwordLogin} href="#">esqueceu sua senha?</a>
-                  <button type="submit" className={`${styles.btnLogin} ${styles.btnSecond}`}>Entrar</button>
-                </form>
-              </>
-            ) : (
-              <>
-                <h2 className={`${styles.titleLogin} ${styles.titleSecond}`}>Crie uma conta</h2>
-                <div className={styles.socialMediaLogin}>
-                  <ul className={styles.listSocialMedia}>
-                    <a className={styles.linkSocialMedia} href="#"><li className={styles.itemSocialMedia}><FaFacebookF /></li></a>
-                    <a className={styles.linkSocialMedia} href="#"><li className={styles.itemSocialMedia}><FaGooglePlusG /></li></a>
-                    <a className={styles.linkSocialMedia} href="#"><li className={styles.itemSocialMedia}><FaLinkedinIn /></li></a>
-                  </ul>
-                </div>
-                <form onSubmit={handleRegister} className={styles.formLogin}>
-                  <label className={styles.labelLoginInput}>
-                    <FaUser className={styles.iconModify} />
-                    <input type="text" placeholder="Nome" value={registerName} onChange={(e) => setRegisterName(e.target.value)} required />
-                  </label>
-                  <label className={styles.labelLoginInput}>
-                    <FaEnvelope className={styles.iconModify} />
-                    <input type="email" placeholder="Email" value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} required />
-                  </label>
-                  <label className={styles.labelLoginInput}>
-                    <FaLock className={styles.iconModify} />
-                    <input type="password" placeholder="Senha" value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} required />
-                  </label>
-                  <button type="submit" className={`${styles.btnLogin} ${styles.btnSecond}`}>Criar</button>
-                </form>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
+    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+      <View style={styles.card}>
+        <Text style={styles.title}>
+          {isSignInActive ? 'Faça login no Finder' : 'Crie uma conta'}
+        </Text>
 
-      <div className={styles.containerLoginMobile}>
-        {isSignInActive ? (
-          <>
-            <h2>Login</h2>
-            <form onSubmit={handleLogin} className={styles.formLoginMobile}>
-              <label>
-                <input type="email" placeholder="Email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required />
-              </label>
-              <label>
-                <input type="password" placeholder="Senha" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required />
-              </label>
-              <button type="submit" className={styles.btnLoginMobile}>Entrar</button>
-            </form>
-            <p>Ainda não tem conta? <a href="#" onClick={handleToggle}>Cadastre-se</a></p>
-          </>
-        ) : (
-          <>
-            <h2>Cadastro</h2>
-            <form onSubmit={handleRegister} className={styles.formLoginMobile}>
-              <label>
-                <input type="text" placeholder="Nome" value={registerName} onChange={(e) => setRegisterName(e.target.value)} required />
-              </label>
-              <label>
-                <input type="email" placeholder="Email" value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} required />
-              </label>
-              <label>
-                <input type="password" placeholder="Senha" value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} required />
-              </label>
-              <button type="submit" className={styles.btnLoginMobile}>Cadastrar</button>
-            </form>
-            <p>Já tem uma conta? <a href="#" onClick={handleToggle}>Faça login</a></p>
-          </>
+        {!isSignInActive && (
+          <View style={styles.inputContainer}>
+            <FontAwesome5 name="user" size={16} color="#666" style={styles.icon} />
+            <TextInput 
+              style={styles.input} 
+              placeholder="Nome" 
+              value={registerName} 
+              onChangeText={setRegisterName} 
+            />
+          </View>
         )}
-      </div>
-    </main>
+
+        <View style={styles.inputContainer}>
+          <FontAwesome5 name="envelope" size={16} color="#666" style={styles.icon} />
+          <TextInput 
+            style={styles.input} 
+            placeholder="Email" 
+            value={isSignInActive ? loginEmail : registerEmail} 
+            onChangeText={isSignInActive ? setLoginEmail : setRegisterEmail} 
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <FontAwesome5 name="lock" size={16} color="#666" style={styles.icon} />
+          <TextInput 
+            style={styles.input} 
+            placeholder="Senha" 
+            value={isSignInActive ? loginPassword : registerPassword} 
+            onChangeText={isSignInActive ? setLoginPassword : setRegisterPassword} 
+            secureTextEntry
+          />
+        </View>
+
+        {isSignInActive && (
+          <TouchableOpacity style={styles.forgotPassword}>
+            <Text style={styles.forgotPasswordText}>Esqueceu sua senha?</Text>
+          </TouchableOpacity>
+        )}
+
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={isSignInActive ? handleLogin : handleRegister}
+        >
+          <Text style={styles.buttonText}>{isSignInActive ? 'Entrar' : 'Cadastrar'}</Text>
+        </TouchableOpacity>
+
+        <View style={styles.toggleContainer}>
+          <Text style={styles.toggleText}>
+            {isSignInActive ? 'Ainda não tem conta? ' : 'Já tem uma conta? '}
+          </Text>
+          <TouchableOpacity onPress={handleToggle}>
+            <Text style={styles.toggleLink}>
+              {isSignInActive ? 'Cadastre-se' : 'Faça login'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  card: {
+    width: '100%',
+    maxWidth: 400,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 24,
+    textAlign: 'center',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f9f9f9',
+    borderWidth: 1,
+    borderColor: '#eee',
+    borderRadius: 8,
+    marginBottom: 16,
+    paddingHorizontal: 12,
+  },
+  icon: {
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    height: 50,
+    color: '#333',
+  },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    marginBottom: 16,
+  },
+  forgotPasswordText: {
+    color: '#007bff',
+    fontSize: 14,
+  },
+  button: {
+    backgroundColor: '#007bff',
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  toggleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  toggleText: {
+    color: '#666',
+    fontSize: 14,
+  },
+  toggleLink: {
+    color: '#007bff',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+});

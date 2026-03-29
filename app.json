@@ -3,6 +3,6 @@
     "name": "Finder",
     "slug": "finder",
     "version": "1.0.0",
-    "platforms": ["android", "ios"]
+    "platforms": ["android", "ios", "web"]
   }
 }

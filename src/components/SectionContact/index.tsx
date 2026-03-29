@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import { DefaultButton } from '../DefaultButton';
 
 export function SectionContact() {

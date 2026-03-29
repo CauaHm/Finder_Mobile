@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import { type reactnode } from 'react';
+import { type ReactNode } from 'react';
 
 type MainProps = {
   children: ReactNode;

@@ -8,7 +8,11 @@ import { SectionContact } from '../components/SectionContact';
 export default function Home() {
   return (
     <MainTamplates>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView 
+        style={styles.scroll}
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
         <SectionAbout />
         <SectionAboutDoWeDo />
         <SectionServices />
@@ -19,8 +23,12 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
+  scroll: {
+    flex: 1,
+  },
   container: {
     flexGrow: 1,
     backgroundColor: '#fff',
+    paddingBottom: 30,
   },
 });

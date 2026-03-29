@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
-import { colors } from '../styles/theme';
+import { colors } from '../styles/theme.ts';
 
 const API_BASE_URL = 'http://localhost:5000';
 

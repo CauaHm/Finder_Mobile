@@ -13,8 +13,9 @@ const TOKEN_KEY = '@finder:token';
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
+  // Trocamos para true e colocamos um token genérico
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [token, setToken] = useState<string | null>('token-de-teste-dev');
 
   useEffect(() => {
     async function loadToken() {

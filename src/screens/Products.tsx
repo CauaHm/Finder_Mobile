@@ -5,7 +5,7 @@ import { Categories } from '../components/Categories';
 import { ProductCard } from '../components/ProductCard';
 import { ProductsSearch } from '../components/ProductsSearch';
 import { MainTamplates } from '../Templates/MainTampletes';
-import { colors, spacing } from '../styles/theme';
+import { colors, spacing } from '../styles/theme.ts';
 import type { Product as ProductModel } from '../Models/Product';
 
 const API_KEY = 'SUA_CHAVE_AQUI';
@@ -34,8 +34,11 @@ export default function Products() {
     void loadFavorites();
   }, []);
 
-  const fetchProducts = async () => {
-    if (!query.trim()) return;
+  // Aceita um parâmetro opcional para evitar o bug de estado assíncrono do React
+  const fetchProducts = async (searchQuery?: string) => {
+    const termToSearch = searchQuery !== undefined ? searchQuery : query;
+    
+    if (!termToSearch.trim()) return;
     if (!API_KEY) {
       setError('Chave da API não configurada');
       return;
@@ -45,7 +48,7 @@ export default function Products() {
     setError(null);
 
     try {
-      const response = await fetch(`${apiUrl}?query=${encodeURIComponent(query)}&country=BR`, {
+      const response = await fetch(`${apiUrl}?query=${encodeURIComponent(termToSearch)}&country=BR`, {
         method: 'GET',
         headers: {
           'X-RapidAPI-Key': API_KEY,
@@ -70,7 +73,10 @@ export default function Products() {
 
   const toggleFavorite = async (asin: string) => {
     try {
-      let newFavorites = favorites.includes(asin) ? favorites.filter((id) => id !== asin) : [...favorites, asin];
+      let newFavorites = favorites.includes(asin) 
+        ? favorites.filter((id) => id !== asin) 
+        : [...favorites, asin];
+        
       setFavorites(newFavorites);
       await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(newFavorites));
     } catch (err) {
@@ -94,15 +100,21 @@ export default function Products() {
         <ProductsSearch
           value={query}
           onChange={setQuery}
-          onSubmit={fetchProducts}
+          onSubmit={() => fetchProducts()} 
         />
 
         {loading && (
           <ActivityIndicator size="large" color={colors.primary} style={styles.loader} />
         )}
+        
         {error && <Text style={styles.error}>{error}</Text>}
 
-        <Categories onCategoryClick={(category) => { setQuery(category); void fetchProducts(); }} />
+        <Categories 
+          onCategoryClick={(category) => { 
+            setQuery(category); 
+            fetchProducts(category); // Passando a categoria diretamente aqui!
+          }} 
+        />
 
         {!loading && products.length === 0 && !error && (
           <Text style={styles.empty}>Nenhum produto encontrado.</Text>
@@ -112,7 +124,8 @@ export default function Products() {
           data={products}
           keyExtractor={(item: ProductModel) => item.asin}
           renderItem={renderProductCard}
-          contentContainerStyle={{ paddingBottom: 100 }}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </MainTamplates>
@@ -120,20 +133,29 @@ export default function Products() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff', padding: 16 },
-  header: { fontSize: 24, fontWeight: 'bold', marginBottom: 12 },
-  searchRow: { flexDirection: 'row', marginBottom: 12 },
-  searchInput: { flex: 1, borderColor: '#ccc', borderWidth: 1, borderRadius: 8, padding: 10, marginRight: 8 },
-  searchButton: { backgroundColor: '#F6C000', borderRadius: 8, padding: 10, justifyContent: 'center' },
-  searchButtonText: { fontWeight: '600' },
-  error: { color: colors.danger, marginVertical: spacing.sm },
-  loader: { marginVertical: spacing.md },
-  empty: { color: colors.textSecondary, marginVertical: spacing.md, textAlign: 'center' },
-  productCard: { flexDirection: 'row', borderWidth: 1, borderColor: colors.border, borderRadius: 8, padding: spacing.md, marginBottom: spacing.md },
-  productImage: { width: 84, height: 84, marginRight: 10 },
-  productInfo: { flex: 1 },
-  productTitle: { fontWeight: '600', marginBottom: 4 },
-  productPrice: { color: '#333', marginBottom: 8 },
-  favoriteButton: { backgroundColor: '#f0f0f0', padding: 8, borderRadius: 6 },
-  favoriteText: { fontSize: 12 },
+  container: { 
+    flex: 1, 
+    backgroundColor: '#fff', 
+    padding: 16 
+  },
+  header: { 
+    fontSize: 24, 
+    fontWeight: 'bold', 
+    marginBottom: 12 
+  },
+  error: { 
+    color: colors.danger, 
+    marginVertical: spacing.sm 
+  },
+  loader: { 
+    marginVertical: spacing.md 
+  },
+  empty: { 
+    color: colors.textSecondary, 
+    marginVertical: spacing.md, 
+    textAlign: 'center' 
+  },
+  listContent: {
+    paddingBottom: 100,
+  }
 });

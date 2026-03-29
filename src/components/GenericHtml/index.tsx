@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, type ReactNode } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { type ReactNode } from 'react';
 
 type GenericHtmlProps = {
   titulo: string;
