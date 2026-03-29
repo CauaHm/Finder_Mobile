@@ -1,24 +1,39 @@
-import Styles from "./styles.module.css"
-
-import { FaInstagram, FaWhatsapp, FaEnvelope } from "react-icons/fa6";
-import type {NavItem} from "../../Models/NavItem"
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 export function SocialButtons() {
-    const navItems: NavItem[] = [
-        {href: "#", icon: <FaInstagram/>},
-        {href: "#", icon: <FaWhatsapp/>},
-        {href: "#", icon: <FaEnvelope/>},
+  const navItems = [
+    { key: 'instagram', label: 'Instagram', icon: '📸' },
+    { key: 'whatsapp', label: 'WhatsApp', icon: '💬' },
+    { key: 'email', label: 'E-mail', icon: '✉️' },
+  ];
 
-    ]
-
-    const renderNavItems = () => {
-            return navItems.map((i, ) => {
-                return <li key={i.name} className={Styles.social_buttons}><a href={i.href}>{i.icon}</a></li>
-            })
-        }
-    return(
-        <ul className={Styles.social}>
-         {renderNavItems()}
-        </ul>
-    )
+  return (
+    <View style={styles.socialContainer}>
+      {navItems.map((item) => (
+        <TouchableOpacity key={item.key} style={styles.button} onPress={() => {}}>
+          <Text style={styles.icon}>{item.icon}</Text>
+          <Text style={styles.label}>{item.label}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  socialContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 10,
+  },
+  button: {
+    alignItems: 'center',
+    padding: 6,
+  },
+  icon: {
+    fontSize: 20,
+  },
+  label: {
+    fontSize: 10,
+    color: '#333',
+  },
+});

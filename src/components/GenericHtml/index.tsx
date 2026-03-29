@@ -1,26 +1,24 @@
-import { motion } from 'motion/react';
-import styles from './styles.module.css';
+import { View, Text, StyleSheet, type ReactNode } from 'react-native';
 
 type GenericHtmlProps = {
   titulo: string;
   tituloGrifado: string;
-  children: React.ReactNode
+  children: ReactNode;
 };
 
 export function GenericHtml({ titulo, tituloGrifado, children }: GenericHtmlProps) {
   return (
-    <div
-          
-        className={styles.GenericHtml}
-        >
-
-      <motion.h2
-      initial={{ opacity: 0, x: -5000 }}
-      animate={{ opacity: 0, x: 0 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1 }}
-      className={styles.subTitle}>{titulo} <span className={styles.subTitleSpan}>{tituloGrifado}</span></motion.h2>
+    <View style={styles.container}>
+      <Text style={styles.title}>
+        {titulo} <Text style={styles.highlight}>{tituloGrifado}</Text>
+      </Text>
       {children}
-    </div>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { marginBottom: 12 },
+  title: { fontSize: 18, fontWeight: '700', marginBottom: 8 },
+  highlight: { color: '#F6C000' },
+});

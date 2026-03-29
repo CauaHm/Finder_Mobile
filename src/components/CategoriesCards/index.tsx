@@ -1,16 +1,27 @@
-import type React from "react";
-import styles from "./styles.module.css";
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 type CategoriesCardsProps = {
-  icon: React.ReactNode;
   paragraph: string;
+  onPress?: () => void;
 };
 
-export function CategoriesCards({icon, paragraph}: CategoriesCardsProps) {
+export function CategoriesCards({ paragraph, onPress }: CategoriesCardsProps) {
   return (
-    <button className={styles.categoriesBtn} data-category={paragraph}>
-      {icon}
-      {paragraph}
-    </button>
+    <TouchableOpacity style={styles.button} onPress={onPress}>
+      <Text style={styles.text}>{paragraph}</Text>
+    </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    padding: 12,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  text: {
+    fontSize: 14,
+    color: '#333',
+  },
+});

@@ -1,43 +1,49 @@
-import { motion } from 'motion/react';
-import { BsPencilSquare } from "react-icons/bs";
-import styles from './styles.module.css';
+import { View, Text, StyleSheet } from 'react-native';
 import { GenericHtml } from '../GenericHtml';
-import { Cards } from '../Cards';
 
 export function SectionServices() {
+  const services = [
+    'Presença digital',
+    'Acesso a clientes',
+    'Competitividade local',
+    'Conversão de vendas',
+    'Integração de produtos',
+    'Aumento de visitantes',
+    'Crescimento sustentável',
+    'Maior visibilidade',
+    'Expansão do negócio',
+    'Facilidade de compra',
+    'Fortalecimento do mercado',
+    'Aprimoramento logístico',
+    'Conectividade comercial',
+    'Melhoria na experiência',
+    'Suporte ao varejo',
+  ];
+
   return (
-    <section className={styles.section}>
-      <GenericHtml titulo='O que oferecemos para' tituloGrifado='sua empresa?'>
-        <Cards title='Aumento da presença digital' paragraph='conectando sua loja a novos clientes.'/>
-        <Cards title='Integração ao sistema de busca e comparação de preços' paragraph='tornando seus produtos mais acessíveis e competitivos.'/>
-        <Cards title='Plataforma intuitiva e eficiente' paragraph='proporcionando uma experiência otimizada para comerciantes e consumidores.'/>
-        <Cards title='Promoção do crescimento do comércio local' paragraph='utilizando tecnologia para melhorar a visibilidade e vendas do seu negócio.'/>
-        <Cards title='Geolocalização da loja física' paragraph='facilitando a localização pelos clientes e impulsionando o fluxo de visitantes.'/>
+    <View style={styles.section}>
+      <GenericHtml titulo="O que oferecemos para" tituloGrifado="sua empresa?">
+        {services.slice(0, 5).map((service) => (
+          <Text style={styles.card} key={service}>{service}</Text>
+        ))}
       </GenericHtml>
-      <motion.div
-        initial={{ opacity: 0, x: -100 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}  
-        className={styles.rightSection}
-        >
-           <ul className={styles.list_itens}>
-                <li><BsPencilSquare /><span>Presença digital</span></li>
-                <li><BsPencilSquare /><span>Acesso a clientes</span></li>
-                <li><BsPencilSquare /><span>Competitividade local</span></li>
-                <li><BsPencilSquare /><span>Conversão de vendas</span></li>
-                <li><BsPencilSquare /><span>Integração de produtos</span></li>
-                <li><BsPencilSquare /><span>Aumento de visitantes</span></li>
-                <li><BsPencilSquare /><span>Crescimento sustentável</span></li>
-                <li><BsPencilSquare /><span>Maior visibilidade</span></li>
-                <li><BsPencilSquare /><span>Expansão do negócio</span></li>
-                <li><BsPencilSquare /><span>Facilidade de compra</span></li>
-                <li><BsPencilSquare /><span>Fortalecimento do mercado</span></li>
-                <li><BsPencilSquare /><span>Aprimoramento logístico</span></li>
-                <li><BsPencilSquare /><span>Conectividade comercial</span></li>
-                <li><BsPencilSquare /><span>Melhoria na experiência</span></li>
-                <li><BsPencilSquare /><span>Suporte ao varejo</span></li>
-            </ul>
-    </motion.div>
-    </section>
+      <View style={styles.servicesList}>
+        {services.map((service) => (
+          <View style={styles.serviceItem} key={service}>
+            <Text style={styles.bullet}>•</Text>
+            <Text style={styles.serviceText}>{service}</Text>
+          </View>
+        ))}
+      </View>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  section: { marginBottom: 16, backgroundColor: '#fff', borderRadius: 8, padding: 12 },
+  card: { fontSize: 14, color: '#333', marginBottom: 4 },
+  servicesList: { marginTop: 12 },
+  serviceItem: { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
+  bullet: { marginRight: 6 },
+  serviceText: { color: '#444', flexShrink: 1 },
+});

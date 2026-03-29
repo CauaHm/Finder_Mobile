@@ -1,0 +1,26 @@
+import { ScrollView, StyleSheet } from 'react-native';
+import { MainTamplates } from '../Templates/MainTampletes';
+import { SectionAbout } from '../components/SectionAbout';
+import { SectionAboutDoWeDo } from '../components/SectionAboutDoWeDo';
+import { SectionServices } from '../components/SectionServices';
+import { SectionContact } from '../components/SectionContact';
+
+export default function Home() {
+  return (
+    <MainTamplates>
+      <ScrollView contentContainerStyle={styles.container}>
+        <SectionAbout />
+        <SectionAboutDoWeDo />
+        <SectionServices />
+        <SectionContact />
+      </ScrollView>
+    </MainTamplates>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: '#fff',
+  },
+});

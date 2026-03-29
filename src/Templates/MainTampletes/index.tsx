@@ -1,29 +1,23 @@
-import type React from "react";
-import { Footer } from "../../components/Footer";
-import { Header } from "../../components/Header";
-import { Container } from "../../components/Container";
-import styles from './styles.module.css';
+import { View, StyleSheet } from 'react-native';
+import { type ReactNode } from 'react';
+import { Footer } from '../../components/Footer';
+import { Header } from '../../components/Header';
 
 type MainTamplatesProps = {
-    children: React.ReactNode
+  children: ReactNode;
+};
+
+export function MainTamplates({ children }: MainTamplatesProps) {
+  return (
+    <View style={styles.container}>
+      <Header />
+      <View style={styles.mainContent}>{children}</View>
+      <Footer />
+    </View>
+  );
 }
 
-export function MainTamplates({children}: MainTamplatesProps) {
-    return(
-        
-        <div className={styles.mainTemplateContainer}> 
-            <Container>       
-                <Header/>
-            </Container>
-
-           
-            <main className={styles.mainContent}>
-                {children}
-            </main>
-            
-            <Container>
-                <Footer/>
-            </Container>
-        </div>
-    )
-}
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#fff' },
+  mainContent: { flex: 1, padding: 16 },
+});

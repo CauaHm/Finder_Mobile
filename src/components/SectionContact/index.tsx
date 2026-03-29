@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import styles from './styles.module.css';
-import logo from '../../assets/images/logoFinder.png'; 
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { DefaultButton } from '../DefaultButton';
-import { motion } from "framer-motion";
 
 export function SectionContact() {
   const [nome, setNome] = useState('');
@@ -10,9 +8,8 @@ export function SectionContact() {
   const [cel, setCel] = useState('');
   const [msg, setMsg] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert('Simulação de envio de formulário!');
+  const handleSubmit = () => {
+    Alert.alert('Sucesso', 'Simulação de envio de formulário!');
     setNome('');
     setEmail('');
     setCel('');
@@ -20,50 +17,28 @@ export function SectionContact() {
   };
 
   return (
-    <section className={styles.contact}>
-
-      <motion.div
-        className={styles.finderContact} 
-        initial={{ opacity: 0, x: -100 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1 }}
-      >
-        <h2 className={styles.sectionTitle}>
-            Sua loja no digital: mais vendas, mais visibilidade! <span>Entre em contato</span>
-        </h2>
-        <img
-          className={`${styles.finderLogo} ${styles.imgUpDown}`}
-          src={logo}
-          alt="Logo Finder"
-        />
-      </motion.div>
-
-      <motion.div
-        className={styles.contactSocial}
-        initial={{ opacity: 0, x: 100 }} 
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1 }}
-      >
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="nome">Nome</label>
-            <input id="nome" type="text" value={nome} onChange={(e) => setNome(e.target.value)} required />
-          </div>
-          <div>
-            <label htmlFor="email">E-mail</label>
-            <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          </div>
-          <div>
-            <label htmlFor="cel">Celular</label>
-            <input type="tel" id="cel" value={cel} onChange={(e) => setCel(e.target.value)} required />
-          </div>
-          <div>
-            <label htmlFor="msg">Alguma duvida?</label>
-            <textarea id="msg" value={msg} onChange={(e) => setMsg(e.target.value)} required />
-          </div>
-          <DefaultButton value="Enviar" />
-        </form>
-      </motion.div>
-    </section>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Sua loja no digital: mais vendas, mais visibilidade!</Text>
+        <Text style={styles.titleHighlight}>Entre em contato</Text>
+      </View>
+      <View style={styles.form}>
+        <TextInput style={styles.input} placeholder="Nome" value={nome} onChangeText={setNome} />
+        <TextInput style={styles.input} placeholder="E-mail" value={email} onChangeText={setEmail} keyboardType="email-address" />
+        <TextInput style={styles.input} placeholder="Celular" value={cel} onChangeText={setCel} keyboardType="phone-pad" />
+        <TextInput style={[styles.input, styles.textArea]} placeholder="Alguma dúvida?" value={msg} onChangeText={setMsg} multiline numberOfLines={4} />
+        <DefaultButton value="Enviar" onPress={handleSubmit} />
+      </View>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { padding: 16, marginBottom: 16, backgroundColor: '#fff', borderRadius: 8 },
+  header: { marginBottom: 12 },
+  title: { fontSize: 18, fontWeight: '700', marginBottom: 4 },
+  titleHighlight: { fontSize: 16, color: '#F6C000' },
+  form: {},
+  input: { borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 10, marginBottom: 10 },
+  textArea: { height: 100, textAlignVertical: 'top' },
+});

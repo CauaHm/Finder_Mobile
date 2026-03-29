@@ -1,6 +1,4 @@
-import { motion } from 'motion/react';
-import styles from './styles.module.css';
-import { FaCheckCircle } from "react-icons/fa";
+import { View, Text, StyleSheet } from 'react-native';
 
 type CardsProps = {
   title: string;
@@ -9,16 +7,27 @@ type CardsProps = {
 
 export function Cards({ title, paragraph }: CardsProps) {
   return (
-    <motion.div
-        initial={{ opacity: 0, y: 100 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}   
-    className={styles.listCards}>
-      <div className={styles.card}>
-        <FaCheckCircle />
-        <h3>{title}</h3>
-        <p>{paragraph}</p>
-      </div>
-    </motion.div>
+    <View style={styles.cardContainer}>
+      <Text style={styles.icon}>✔</Text>
+      <Text style={styles.cardTitle}>{title}</Text>
+      <Text style={styles.cardText}>{paragraph}</Text>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  cardContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  icon: {
+    fontSize: 18,
+    marginBottom: 6,
+  },
+  cardTitle: { fontSize: 16, fontWeight: '700', marginBottom: 4 },
+  cardText: { color: '#555', fontSize: 14 },
+});

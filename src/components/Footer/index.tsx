@@ -1,18 +1,25 @@
-import wave from "../../assets/images/wave.svg"
-import { SocialButtons } from "../SocialButtons/SocialButtons"
-import Styles from "./styles.module.css"
+import { View, Text, StyleSheet } from 'react-native';
+import { SocialButtons } from '../SocialButtons/SocialButtons';
 
 export function Footer() {
-    
-    return(
-         <footer className={Styles.rodape}>
-            <img src={wave} aria-hidden="true"/>
-            <div className={Styles.footer_items}>
-                <span className={Styles.copy}>
-                    &copy 2025 Finder@v.2
-                </span>
-                <SocialButtons/>        
-            </div>  
-    </footer>
-    )
+  return (
+    <View style={styles.footer}>
+      <Text style={styles.copy}>© 2025 Finder@v.2</Text>
+      <SocialButtons />
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  footer: {
+    padding: 16,
+    borderTopWidth: 1,
+    borderColor: '#ddd',
+    backgroundColor: '#fafafa',
+    alignItems: 'center',
+  },
+  copy: {
+    color: '#888',
+    marginBottom: 8,
+  },
+});

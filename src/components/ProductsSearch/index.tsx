@@ -1,24 +1,29 @@
-import { DefaultButton } from "../DefaultButton";
-import styles from "./styles.module.css";
-
+import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 type ProductsSearchProps = {
   value: string;
   onChange: (value: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
-}
+  onSubmit: () => void;
+};
 
 export function ProductsSearch({ value, onChange, onSubmit }: ProductsSearchProps) {
   return (
-    <form className={styles.containerForm} onSubmit={onSubmit}>
-      <input 
-        className={styles.searchInput} 
-        type="text" 
-        id="search-input" 
-        placeholder="Produto..."
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChangeText={onChange}
+        placeholder="Produto..."
       />
-      <DefaultButton value="Buscar"/>
-    </form>
+      <TouchableOpacity style={styles.button} onPress={onSubmit}>
+        <Text style={styles.buttonText}>Buscar</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flexDirection: 'row', marginBottom: 12, gap: 8 },
+  input: { flex: 1, borderWidth: 1, borderColor: '#ccc', borderRadius: 8, padding: 10 },
+  button: { backgroundColor: '#F6C000', borderRadius: 8, justifyContent: 'center', paddingHorizontal: 12 },
+  buttonText: { fontWeight: '600', color: '#000' },
+});
